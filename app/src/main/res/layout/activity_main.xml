@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity"
     android:orientation="vertical">
-    <!--TODO : now I am going add the id of each layout
+    <!-- : now I am going add the id of each layout
     then i am going to add the toast massage and some logic-->
     <EditText
         android:layout_width="match_parent"
@@ -141,24 +141,28 @@
         android:orientation="horizontal"
         android:layout_margin="20dp">
         <Button
+            android:onClick="onPlus"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:text="+"
             android:textSize="30dp"/>
         <Button
+            android:onClick="onMinus"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:text="-"
             android:textSize="30dp"/>
         <Button
+            android:onClick="onMulti"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:text="*"
             android:textSize="30dp"/>
         <Button
+            android:onClick="onDivi"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
