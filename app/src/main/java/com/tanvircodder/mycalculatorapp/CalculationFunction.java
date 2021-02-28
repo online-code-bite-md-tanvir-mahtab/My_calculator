@@ -1,29 +1,29 @@
 package com.tanvircodder.mycalculatorapp;
 
 public class CalculationFunction {
-    private float result;
+    private double result;
     /*now I am going to add the mathod that will
     * do all the calculation
     * like substraction , multiplication,
     * division, parsentage*/
-    public float subsTraction(float value1,float value2){
+    public double subsTraction(double value1,double value2){
         result = value1 - value2;
         return result;
     }
-    public float multiplication(float value1,float value2){
+    public double multiplication(double value1,double value2){
         result = value1 * value2;
         return result;
     }
-    public float addition(float value1,float value2){
+    public double addition(double value1,double value2){
         result = value1 + value2;
         return result;
     }
-    public float division(float value1,float value2){
+    public double division(double value1,double value2){
         result = value1 / value2;
         return result;
     }
-    public float persentage(float value1){
-        result = value1/100;
+    public double persentage(double value1,double value2){
+        result = (value1/100)*value2;
         return result;
     }
 }
