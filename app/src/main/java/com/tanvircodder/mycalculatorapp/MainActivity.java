@@ -17,7 +17,9 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.lang.reflect.Array;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 //    creating the constant..//
@@ -55,7 +57,6 @@ public class MainActivity extends AppCompatActivity {
         mDecimalFormat = new DecimalFormat("#####.######");
     }
     public void onOne(View view){
-        Toast.makeText(this,"One",Toast.LENGTH_LONG).show();
         mAnswerView.setText(mAnswerView.getText()+"1");
 
     }
@@ -99,9 +100,12 @@ public class MainActivity extends AppCompatActivity {
         String value = mAnswerView.getText().toString();
         firstValue = Double.parseDouble(value);
         mTextView.setText(mDecimalFormat.format(firstValue) + "+");
-        addition = true;
 
+        addition = true;
+//        mulipleTimeCalculation(ADDITION,2);
         mAnswerView.setText(null);
+        mAnswerView.setVisibility(View.VISIBLE);
+
     }
     public void onMinus(View view){
         String value = mAnswerView.getText().toString();
@@ -110,6 +114,7 @@ public class MainActivity extends AppCompatActivity {
         mTextView.setText(mDecimalFormat.format(firstValue) + "-");
         substraction = true;
         mAnswerView.setText(null);
+        mAnswerView.setVisibility(View.VISIBLE);
 
     }
     public void onMulti(View view){
@@ -119,6 +124,7 @@ public class MainActivity extends AppCompatActivity {
         mTextView.setText(mDecimalFormat.format(firstValue) + "*");
         multiplication = true;
         mAnswerView.setText(null);
+        mAnswerView.setVisibility(View.VISIBLE);
     }
     public void onDivi(View view){
         String value = mAnswerView.getText().toString();
@@ -127,6 +133,7 @@ public class MainActivity extends AppCompatActivity {
         mTextView.setText(mDecimalFormat.format(firstValue) + "/");
         divition = true;
         mAnswerView.setText(null);
+        mAnswerView.setVisibility(View.VISIBLE);
     }
     public void onPersentage(View view){
         String valueTopersentage = mAnswerView.getText().toString();
@@ -134,39 +141,48 @@ public class MainActivity extends AppCompatActivity {
         mTextView.setText(mDecimalFormat.format(firstValue) + "%");
         persentage = true;
         mAnswerView.setText(null);
+        mAnswerView.setVisibility(View.VISIBLE);
 
     }
     public void onEquals(View view){
         String seVal = mAnswerView.getText().toString();
         secondValue = Double.parseDouble(seVal);
         if (addition == true){
+
             number = mCalculation.addition(firstValue,secondValue);
             mTextView.setText(mDecimalFormat.format(firstValue) + "+" + mDecimalFormat.format(secondValue) + "=" + mDecimalFormat.format(number));
             mAnswerView.setText(mDecimalFormat.format(number));
+//            now i don't went to show the naswer after clicking the equal sign..//
+//            so i invisible the view...//
+            mAnswerView.setVisibility(View.INVISIBLE);
             addition = false;
         }
         if (substraction == true){
             number = mCalculation.subsTraction(firstValue,secondValue);
             mTextView.setText(mDecimalFormat.format(firstValue) + "-" + mDecimalFormat.format(secondValue) + "=" + mDecimalFormat.format(number));
             mAnswerView.setText(mDecimalFormat.format(number));
+            mAnswerView.setVisibility(View.INVISIBLE);
             substraction = false;
         }
         if (multiplication == true){
             number = mCalculation.multiplication(firstValue,secondValue);
             mTextView.setText(mDecimalFormat.format(firstValue) + "*" + mDecimalFormat.format(secondValue) + "=" + mDecimalFormat.format(number));
             mAnswerView.setText(mDecimalFormat.format(number));
+            mAnswerView.setVisibility(View.INVISIBLE);
             multiplication = false;
         }
         if (divition == true){
             number = mCalculation.division(firstValue,secondValue);
             mTextView.setText(mDecimalFormat.format(firstValue) + "/" + mDecimalFormat.format(secondValue) + "=" + mDecimalFormat.format(number));
             mAnswerView.setText(mDecimalFormat.format(number));
+            mAnswerView.setVisibility(View.INVISIBLE);
             divition = false;
         }
         if (persentage == true){
             number = mCalculation.persentage(firstValue,secondValue);
             mTextView.setText(mDecimalFormat.format(firstValue) + "%" + mDecimalFormat.format(secondValue) + "=" + mDecimalFormat.format(number));
             mAnswerView.setText(mDecimalFormat.format(number));
+            mAnswerView.setVisibility(View.INVISIBLE);
             persentage = false;
         }
     }
@@ -182,6 +198,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.cancel_button){
+            mAnswerView.setVisibility(View.VISIBLE);
             if (firstValue != 0 && secondValue != 0){
                 mAnswerView.setText(null);
                 mAnswerView.setHint("0");
@@ -194,14 +211,37 @@ public class MainActivity extends AppCompatActivity {
                 mTextView.setText(null);
             }
         }
+        if (id == R.id.delete){
+//            i have get the vlue form the editext and store them inside an string variable....//
+            String value = mAnswerView.getText().toString();
+            /*then i have split the value and store them inside the string array variable
+            * because when we use the split builin library it split the text in array */
+            String[] singleNumber = value.split("");
+            /*nwo i am going to create an list variabe that will hold the array string
+            * value inside of it the variable name is listValue*/
+            List<String> listValue = new ArrayList<>();
+            for (int i =0;i<singleNumber.length;i++){
+                listValue.add(singleNumber[i]);
+            }
+//            now i am going to delet the last index of the list..//
+            listValue.remove(singleNumber.length - 1);
+//            now i need to make the string list in to the string value..//
+            /*now i am going to create the StringBuilder object..*/
+            StringBuilder sb = new StringBuilder();
+            for (String s:listValue){
+                sb.append(s);
+            }
+//            now I am going to set the sb to the editText view..//
+            mAnswerView.setText(sb.toString());
+        }
+        // : 3/1/2021 i need to add another menu heir..
         return super.onOptionsItemSelected(item);
     }
     public void mulipleTimeCalculation(char CURRENT_CHOOSEN_SYMBOL, int pressTime){
         // TODO: 2/28/2021 I need to add some logic in heir to do the multiple value calculation
         String seVal = mAnswerView.getText().toString();
         secondValue = Double.parseDouble(seVal);
-        if (pressTime >=2){
-            mAnswerView.setText(null);
+         mAnswerView.setText(null);
             switch (CURRENT_CHOOSEN_SYMBOL){
                 case ADDITION:
                     firstValue = this.firstValue + secondValue;
@@ -216,6 +256,5 @@ public class MainActivity extends AppCompatActivity {
                     firstValue = this.firstValue / secondValue;
                     break;
             }
-        }
     }
 }
