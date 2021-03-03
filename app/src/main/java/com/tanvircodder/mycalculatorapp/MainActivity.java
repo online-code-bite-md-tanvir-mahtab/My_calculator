@@ -6,8 +6,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.os.DeadObjectException;
+import android.text.InputType;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -56,6 +58,16 @@ public class MainActivity extends AppCompatActivity {
         mTextView = (TextView) findViewById(R.id.answer_text_view);
         mCalculation = new CalculationFunction();
         mDecimalFormat = new DecimalFormat("#####.######");
+        mAnswerView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                int intype = mAnswerView.getInputType();
+                mAnswerView.setInputType(InputType.TYPE_NULL);
+                mAnswerView.onTouchEvent(event);
+                mAnswerView.setInputType(intype);
+                return true;
+            }
+        });
     }
 
     public void onOne(View view) {
@@ -121,10 +133,40 @@ public class MainActivity extends AppCompatActivity {
 //        mulipleTimeCalculation(ADDITION,2);
             mAnswerView.setText(null);
             mAnswerView.setVisibility(View.VISIBLE);
+            /*if their is some value for the second variable then ite will sohw the firs and second value as a toast massage
+            * if their is no value ino the secondValue then it will show the write massage*/
+           /* if (secondValue == 0 && firstValue == 0){
+                Toast.makeText(this,"The second value is null",Toast.LENGTH_LONG).show();
+            }else {
+                *//*firstValue = mulTipleCalculation(firstValue,secondValue);*//*
+                *//*Toast.makeText(this,"The fires Value :"+firstValue+"\nThe second value" + secondValue,Toast.LENGTH_LONG).show();*//*
+                if (firstValue == 0){
+                    Toast.makeText(this,"the second value :" + firstValue,Toast.LENGTH_LONG).show();
+//                    mycalculation();
+                }else {
+                    checkCalculation();
+                }
+            }*/
         }
-
-
     }
+
+/*    private void checkCalculation() {
+        String valueOfString = mTextView.getText().toString();
+        String[] arrayString = valueOfString.split("");
+        List<String> listNumber = new ArrayList<>();
+        for (int i =0;i<arrayString.length;i++){
+            listNumber.add(arrayString[i]);
+        }
+        listNumber.remove(arrayString.length - 1);
+        StringBuilder sb = new StringBuilder();
+        for (String s : listNumber) {
+            sb.append(s);
+        }
+        secondValue = Double.parseDouble(sb.toString());
+        firstValue =+secondValue;
+        Toast.makeText(this,"The value is :" + secondValue+","+firstValue,Toast.LENGTH_LONG).show();
+    }*/
+
 
     public void onMinus(View view) {
         String value = mAnswerView.getText().toString();
@@ -195,43 +237,43 @@ public class MainActivity extends AppCompatActivity {
             if (addition == true) {
 
                 number = mCalculation.addition(firstValue, secondValue);
-                mTextView.setText(mDecimalFormat.format(firstValue) + "+" + mDecimalFormat.format(secondValue) + "=" + mDecimalFormat.format(number));
+                mTextView.setText(mDecimalFormat.format(firstValue) + "+" + mDecimalFormat.format(secondValue) + "="/* + mDecimalFormat.format(number)*/);
                 mAnswerView.setText(mDecimalFormat.format(number));
 //            now i don't went to show the naswer after clicking the equal sign..//
 //            so i invisible the view...//
-                mAnswerView.setVisibility(View.INVISIBLE);
+                mAnswerView.setVisibility(View.VISIBLE);
                 addition = false;
             }
             if (substraction == true) {
                 number = mCalculation.subsTraction(firstValue, secondValue);
-                mTextView.setText(mDecimalFormat.format(firstValue) + "-" + mDecimalFormat.format(secondValue) + "=" + mDecimalFormat.format(number));
+                mTextView.setText(mDecimalFormat.format(firstValue) + "-" + mDecimalFormat.format(secondValue) + "=" /*+ mDecimalFormat.format(number)*/);
                 mAnswerView.setText(mDecimalFormat.format(number));
-                mAnswerView.setVisibility(View.INVISIBLE);
+                mAnswerView.setVisibility(View.VISIBLE);
                 substraction = false;
             }
             if (multiplication == true) {
                 number = mCalculation.multiplication(firstValue, secondValue);
-                mTextView.setText(mDecimalFormat.format(firstValue) + "*" + mDecimalFormat.format(secondValue) + "=" + mDecimalFormat.format(number));
+                mTextView.setText(mDecimalFormat.format(firstValue) + "*" + mDecimalFormat.format(secondValue) + "=" /*+ mDecimalFormat.format(number)*/);
                 mAnswerView.setText(mDecimalFormat.format(number));
-                mAnswerView.setVisibility(View.INVISIBLE);
+                mAnswerView.setVisibility(View.VISIBLE);
                 multiplication = false;
             }
             if (divition == true) {
                 number = mCalculation.division(firstValue, secondValue);
-                mTextView.setText(mDecimalFormat.format(firstValue) + "/" + mDecimalFormat.format(secondValue) + "=" + mDecimalFormat.format(number));
+                mTextView.setText(mDecimalFormat.format(firstValue) + "/" + mDecimalFormat.format(secondValue) + "="/* + mDecimalFormat.format(number)*/);
                 mAnswerView.setText(mDecimalFormat.format(number));
-                mAnswerView.setVisibility(View.INVISIBLE);
+                mAnswerView.setVisibility(View.VISIBLE);
                 divition = false;
             }
             if (persentage == true) {
                 number = mCalculation.persentage(firstValue, secondValue);
-                mTextView.setText(mDecimalFormat.format(firstValue) + "%" + mDecimalFormat.format(secondValue) + "=" + mDecimalFormat.format(number));
+                mTextView.setText(mDecimalFormat.format(firstValue) + "%" + mDecimalFormat.format(secondValue) + "="/* + mDecimalFormat.format(number)*/);
                 mAnswerView.setText(mDecimalFormat.format(number));
-                mAnswerView.setVisibility(View.INVISIBLE);
+                mAnswerView.setVisibility(View.VISIBLE);
                 persentage = false;
             }
         }
-        // TODO: 3/2/2021 find the second error
+        // : 3/2/2021 find the second error
 
     }
 
@@ -284,26 +326,5 @@ public class MainActivity extends AppCompatActivity {
         }
         // : 3/1/2021 i need to add another menu heir..
         return super.onOptionsItemSelected(item);
-    }
-
-    public void mulipleTimeCalculation(char CURRENT_CHOOSEN_SYMBOL, int pressTime) {
-        // TODO: 2/28/2021 I need to add some logic in heir to do the multiple value calculation
-        String seVal = mAnswerView.getText().toString();
-        secondValue = Double.parseDouble(seVal);
-        mAnswerView.setText(null);
-        switch (CURRENT_CHOOSEN_SYMBOL) {
-            case ADDITION:
-                firstValue = this.firstValue + secondValue;
-                break;
-            case SUBTRACTION:
-                firstValue = this.firstValue - secondValue;
-                break;
-            case MULTIPLICATION:
-                firstValue = this.firstValue * secondValue;
-                break;
-            case DIVISION:
-                firstValue = this.firstValue / secondValue;
-                break;
-        }
     }
 }
